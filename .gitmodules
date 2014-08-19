@@ -1,0 +1,3 @@
+[submodule "Dayz-Epoch-Linux-Server"]
+	path = Dayz-Epoch-Linux-Server
+	url = https://github.com/denisio/Dayz-Epoch-Linux-Server.git

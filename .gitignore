@@ -1,0 +1,7 @@
+*.log
+CONFIGURATION
+*\#*
+*~
+downloads/
+steamcmd/
+arma2-server/
