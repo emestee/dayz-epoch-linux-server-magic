@@ -10,13 +10,11 @@ Current Arma 2 AO beta data files: *1.63.122548*
 What is this?
 -------------
 
-This is a hands-free make-based automated installer for Dayz Epoch
+This is a hands-free linux automated installer for Dayz Epoch
 game server. It automatically downloads all the required dependencies,
 including the game binaries from Steam, and composes them into a
-runnable server. I wrote it so that nobody else has to undergo the
-same terrifying manual procedure I did which involved waiting for days
-to finish uploading the enormous game files to a VPS off a slow home
-DSL line.
+runnable server, sparing you long uploads, downloads, and figuring out the
+correct combinations of files. 
 
 Here is what it does exactly:
 
@@ -27,7 +25,9 @@ Here is what it does exactly:
 * Composes all of the above to create a working server environment
 * Creates a single, default database instance and fills it with the default dump
 
-On a DigitalOcean VPS, the whole process takes 10 minutes.
+I tested it on DigitalOcean 2Gb RAM VPS with Debian 7, the whole
+process takes 10 minutes and results in a fully working server.
+
 What do I need?
 ---------------
 
@@ -60,7 +60,8 @@ It's probably my fault! This script is a hack. My goal is to make the
 procedure painless. Let me know and I will try to help you fixing it.
 
 If something was wrong with your configuration, adjust it and perform
-`./install.sh reset` and then `./install.sh all` again.
+`./install.sh reset` and then `./install.sh all` again. **Note that this
+will wipe both your server directory and the database.**
 
 Try to figure out what went wrong. The script is organized into
 stages; reset as above, look at the `all` procedure, and execute every stage manually
