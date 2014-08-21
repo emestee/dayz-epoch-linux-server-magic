@@ -10,11 +10,12 @@ Current Arma 2 AO beta data files: *1.63.122548*
 What is this?
 -------------
 
-This is a hands-free linux automated installer for Dayz Epoch
-game server. It automatically downloads all the required dependencies,
-including the game binaries from Steam, and composes them into a
-runnable server, sparing you long uploads, downloads, and figuring out the
-correct combinations of files. 
+This is a hands-free automated installer for Dayz Epoch game
+server. It runs on native Linux binaries and denisio's private hive scripts
+based on MySQL. Wine is not required.
+
+This script is designed to spare you from a very long and annoying procedure of uploading
+binaries from your home Windows machine and figure out the correct order of things.
 
 Here is what it does exactly:
 
@@ -70,12 +71,12 @@ via `./install.sh <stage>`.
 What's next?
 ------------
 
-* Check the game server will run correctly by going to the server directory and running `./epoch.sh`
+* Check that the game server runs correctly by going to the server directory and running `./epoch.sh`
 * Log in to the game as a player, run around, kill some zombies, log off, log on again and see that everything is fine (you're 
   spawned back where you were and your stuff isn't missing)
-* Configure your server (hostname, motd, slots, password, etc). Note that the current server PBO has missions in Russian
-  because that's how denisio publishes it. The recipe how to fix it can be found on epochmod.com forums.
-* Run with `./restarter.pl`
+* Configure your server (hostname, motd, slots, password, etc). At the very least change the MOTD and battleye rcon password.
+* Note that the current server PBO has missions in Russian because that's how denisio publishes it. The recipe how to fix it can be found on epochmod.com forums.
+* Run with `./restarter.pl`. Use cron to run the script periodically; this will restart the server.
 * After everything is in order, delete this installer, or at the very least, **remove your steam user and password from the `CONFIGURATION` file**
 
 Thanks

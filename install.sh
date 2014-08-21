@@ -76,9 +76,9 @@ dl_tools () {
 }
 
 dl_epoch () {
-    curl -s -o $CACHE/${EPOCH_CLIENT_TARBALL}.torrent $EPOCH_CLIENT_URL | fail "Epoch client torrent unavailable"
+    curl -s -o $CACHE/${EPOCH_CLIENT_TARBALL}.torrent $EPOCH_CLIENT_URL | fail "Epoch client torrent file unavailable"
     pushd $CACHE > /dev/null
-    unworkable ${EPOCH_CLIENT_TARBALL}.torrent 
+    unworkable ${EPOCH_CLIENT_TARBALL}.torrent || fail "Unable to download the Epoch client file from bittorrent"
     popd > /dev/null
 }
 
