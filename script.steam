@@ -1,5 +1,4 @@
 @sSteamCmdForcePlatformType windows
-force_install_dir ../../epoch
 app_update 33910 validate
 app_update 33930 validate
 app_update 219540 beta112555 validate

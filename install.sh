@@ -1,5 +1,11 @@
 #!/bin/bash
 
+set -x
+
+[ ! -f CONFIGURATION ] && {
+    echo You haven\'t created the CONFIGURATION file, read the instructions you zombie!
+    exit 1
+}
 . CONFIGURATION
 
 fail () {
@@ -53,19 +59,29 @@ all () {
 }
 
 dl_steamcmd () {
-    curl -s -o $CACHE/steamcmd_linux.tar.gz $STEAMCMD_URL || fail "Unable to download SteamCmd"
+    [ ! -f "${CACHE}/steamcmd_linux.tar.gz" ] && {
+	curl -s -o $CACHE/steamcmd_linux.tar.gz $STEAMCMD_URL || fail "Unable to download SteamCmd"
+	} || echo "${CACHE}/steamcmd_linux.tar.gz already exists, skipping download"
+
+    md5sum -c steamcmd.md5sum || fail "$CACHE/steamcmd_linux.tar.gz is corrupt"
+    rm -rf steamcmd
     mkdir steamcmd -p
-    tar xzf $CACHE/steamcmd_linux.tar.gz -C steamcmd
+    tar xzf $CACHE/steamcmd_linux.tar.gz -C steamcmd || fail "Unable to unpack SteamCmd"
 }
 
 dl_game () {
-    steamcmd/steamcmd.sh +login $STEAM_USERNAME $STEAM_PASSWORD +runscript ../script.steam || fail "SteamCmd game installation failed"
+    steamcmd/steamcmd.sh +login $STEAM_USERNAME $STEAM_PASSWORD +force_install_dir ../${SERVER_PATH} +runscript ../script.steam || fail "SteamCmd game installation failed"
 }
 
 dl_server () {
-    a2oa_tarball=$(basename $ARMA2_SERVER_URL)
-    curl -s -o $CACHE/${a2oa_tarball} $ARMA2_SERVER_URL || fail "Unable to download the server tarball from $ARMA2_SERVER_URL"
+    local a2oa_tarball=$(basename $ARMA2_SERVER_URL)
+    [ ! -f "${CACHE}/${a2oa_tarball}" ] && {
+	curl -s -o $CACHE/${a2oa_tarball} $ARMA2_SERVER_URL || fail "Unable to download the server tarball from $ARMA2_SERVER_URL"
+	} || echo "${a2oa_tarball} exists, skipping download"
 
+    md5sum -c a2oa.md5sum || fail "${a2oa_tarball} is corrupt"
+
+    rm -rf arma2-server
     mkdir -p arma2-server
     tar xjf $CACHE/${a2oa_tarball} -C arma2-server || fail "Unable to extract the server tarball"
 }
@@ -76,16 +92,15 @@ dl_tools () {
 }
 
 dl_epoch () {
-    [ -f "${CACHE}/${EPOCH_CLIENT_TARBALL}" ] &&  { 
-	echo "Epoch client file already in place, skipping download:"
-	ls -l ${CACHE}/${EPOCH_CLIENT_TARBALL}
-	return
-    }
+    [ ! -f "${CACHE}/${EPOCH_CLIENT_TARBALL}" ] &&  { 
+	curl -s -o $CACHE/${EPOCH_CLIENT_TARBALL}.torrent $EPOCH_CLIENT_URL || fail "Epoch client torrent file unavailable"
 
-    curl -s -o $CACHE/${EPOCH_CLIENT_TARBALL}.torrent $EPOCH_CLIENT_URL | fail "Epoch client torrent file unavailable"
-    pushd $CACHE > /dev/null
-    unworkable ${EPOCH_CLIENT_TARBALL}.torrent || fail "Unable to download the Epoch client file from bittorrent"
-    popd > /dev/null
+	pushd $CACHE > /dev/null
+	unworkable ${EPOCH_CLIENT_TARBALL}.torrent || fail "Unable to download the Epoch client file from bittorrent"
+	popd > /dev/null
+	} || echo "Epoch client file already in place, skipping bittorrent download"
+
+    md5sum -c epoch_client.md5sum || fail "${EPOCH_CLIENT_TARBALL} is corrupt"
 }
 
 extract_epoch () {
