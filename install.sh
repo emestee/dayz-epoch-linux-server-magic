@@ -76,6 +76,12 @@ dl_tools () {
 }
 
 dl_epoch () {
+    [ -f "${CACHE}/${EPOCH_CLIENT_TARBALL}" ] &&  { 
+	echo "Epoch client file already in place, skipping download:"
+	ls -l ${CACHE}/${EPOCH_CLIENT_TARBALL}
+	return
+    }
+
     curl -s -o $CACHE/${EPOCH_CLIENT_TARBALL}.torrent $EPOCH_CLIENT_URL | fail "Epoch client torrent file unavailable"
     pushd $CACHE > /dev/null
     unworkable ${EPOCH_CLIENT_TARBALL}.torrent || fail "Unable to download the Epoch client file from bittorrent"
@@ -84,7 +90,7 @@ dl_epoch () {
 
 extract_epoch () {
     echo Installing Epoch client files
-    7zr x -o${SERVER_PATH} $CACHE/${EPOCH_CLIENT_TARBALL} > /dev/null || fail "Unable to extract ${EPOCH_CLIENT_TARBALL}, file corrupt/disk full?"
+    7zr x -o${SERVER_PATH} ${CACHE}/${EPOCH_CLIENT_TARBALL} > /dev/null || fail "Unable to extract ${EPOCH_CLIENT_TARBALL}, file corrupt/disk full?"
 }
 
 clean () {
