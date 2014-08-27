@@ -35,6 +35,25 @@ What do I need?
 * A Linux machine with a recent (2.16+) glibc, Debian Wheezy works
 * About 20Gb disk space and 2Gb RAM (the server will probably run with less; haven't tried)
 * A Steam account with Arma II and Arma II: AO
+* After the installation is finished you have to edit `writer.pl` in your server directory and change the `mysql user` `password` and `database` to the options you set in the CONFIGURATION file.
+
+```
+CONFIGURATION
+```
+```
+MYSQL_EPOCH_DB=dayz_epoch
+MYSQL_EPOCH_USER=dayz_epoch
+MYSQL_EPOCH_PASSWORD=ENTERYOURPASSWD
+```
+```
+writer.pl
+```
+```
+use constant {
+    DB_NAME   => 'dayz_epoch',      # Set database name
+    DB_LOGIN  => 'dayz_epoch',       # Set database login
+    DB_PASSWD => 'ENTERYOURPASSWD',       # Set database password
+```
 
 How do I run this?
 ------------------
