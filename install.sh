@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 [ ! -f CONFIGURATION ] && {
     echo You haven\'t created the CONFIGURATION file, read the instructions you zombie!
     exit 1
@@ -25,14 +23,13 @@ help () {
     echo "* dl_server - Download Linux server binaries"
     echo "* dl_tools - Download denisio's server tools"
     echo "* compose - Combine everything into a working server directory"
+    echo "* patch_writer - Update writer.pl with database credentials"
     echo "* sql - Initialize the SQL database"
     echo "* clean - Remove unneeded garbage from the server directory"
     echo "* reset - Start from scratch (destroys the server directory and the SQL database)"
     echo
     echo "Server will be installed into ${SERVER_PATH}"
 }
-
-
 
 all () {
     [ -d "$SERVER_PATH" ] && fail "Safety: server directory $SERVER_PATH already exists, this procedure will destroy it; exiting."
@@ -96,7 +93,7 @@ dl_epoch () {
 	curl -s -o $CACHE/${EPOCH_CLIENT_TARBALL}.torrent $EPOCH_CLIENT_URL || fail "Epoch client torrent file unavailable"
 
 	pushd $CACHE > /dev/null
-	unworkable ${EPOCH_CLIENT_TARBALL}.torrent || fail "Unable to download the Epoch client file from bittorrent"
+	ctorrent -e 0 ${EPOCH_CLIENT_TARBALL}.torrent || fail "Unable to download the Epoch client file from bittorrent"
 	popd > /dev/null
 	} || echo "Epoch client file already in place, skipping bittorrent download"
 
@@ -106,6 +103,15 @@ dl_epoch () {
 extract_epoch () {
     echo Installing Epoch client files
     7zr x -o${SERVER_PATH} ${CACHE}/${EPOCH_CLIENT_TARBALL} > /dev/null || fail "Unable to extract ${EPOCH_CLIENT_TARBALL}, file corrupt/disk full?"
+}
+
+patch_writer () {
+    # Patch writer.pl with SQL credentials
+    cp writer.pl-template $SERVER_PATH/writer.pl
+    sed -i "s/@@DB_NAME@@/${MYSQL_EPOCH_DB}/" $SERVER_PATH/writer.pl
+    sed -i "s/@@DB_LOGIN@@/${MYSQL_EPOCH_USER}/" $SERVER_PATH/writer.pl
+    sed -i "s/@@DB_PASSWD@@/${MYSQL_EPOCH_PASSWORD}/" $SERVER_PATH/writer.pl
+    chmod +x $SERVER_PATH/writer.pl
 }
 
 clean () {
@@ -136,6 +142,9 @@ compose () {
     cp -r Dayz-Epoch-Linux-Server/expansion $SERVER_PATH
     cp -r Dayz-Epoch-Linux-Server/keys $SERVER_PATH
     cp -r Dayz-Epoch-Linux-Server/mpmissions $SERVER_PATH
+    
+    echo "Patching writer.pl"
+    patch_writer
 
     echo "Installing server binaries"
     cp arma2-server/server $SERVER_PATH/epoch
@@ -143,14 +152,14 @@ compose () {
 }
 
 sql () {
-    mysqladmin -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} create epoch || fail "Unable to create the database; invalid user/password?"
-    mysql -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} -e "GRANT ALL PRIVILEGES ON epoch.* TO 'dayz'@'localhost' IDENTIFIED BY 'dayz';"
-    cat Dayz-Epoch-Linux-Server/database.sql Dayz-Epoch-Linux-Server/v1042update.sql Dayz-Epoch-Linux-Server/v1042a_update.sql Dayz-Epoch-Linux-Server/v1051update.sql | mysql -udayz -pdayz epoch
+    mysqladmin -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} create ${MYSQL_EPOCH_DB} || fail "Unable to create the database; invalid user/password?"
+    mysql -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} -e "GRANT ALL PRIVILEGES ON ${MYSQL_EPOCH_DB}.* TO '${MYSQL_EPOCH_USER}'@'localhost' IDENTIFIED BY '${MYSQL_EPOCH_PASSWORD}';"
+    cat Dayz-Epoch-Linux-Server/database.sql Dayz-Epoch-Linux-Server/v1042update.sql Dayz-Epoch-Linux-Server/v1042a_update.sql Dayz-Epoch-Linux-Server/v1051update.sql | mysql -u${MYSQL_EPOCH_USER} -p${MYSQL_EPOCH_PASSWORD} ${MYSQL_EPOCH_DB}
 }
 
 reset () {
     rm -rf $SERVER_PATH
-    yes|mysqladmin -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} drop epoch > /dev/null
+    yes|mysqladmin -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} drop ${MYSQL_EPOCH_DB} > /dev/null
     
 }
 [ "$1" = "" ] && { 

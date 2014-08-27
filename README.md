@@ -19,7 +19,8 @@ binaries from your home Windows machine and figure out the correct order of thin
 
 Here is what it does exactly:
 
-* Downloads the game data files from Steam
+* Downloads the game data files from Steam (this method can and should be used with
+   all linux game servers instead of uploading the binaries manually)
 * Downloads the current server binary from BIS website
 * Downloads the necessary PBOs
 * Downloads the Linux hive port by denisio
@@ -43,8 +44,9 @@ How do I run this?
 * Clone this repository with `git clone git@github.com:emestee/dayz-epoch-linux-server-magic.git`
 * On Debian, run `packages.sh` **as root** to install the prerequisites. Otherwise look at the content of the file
   and install the equivalent packages.
-* Copy the `CONFIGURATION-dist` file to `CONFIGURATION` and edit it. At the bare minimum insert your steam login and password.
-  If you have Steam Guard enabled, at the download stage it will ask you for a guard code that you receive via the email
+* Copy the `CONFIGURATION-dist` file to `CONFIGURATION` and edit it. At the bare minimum insert your steam login and password,
+  and the database passwords.
+* If you have Steam Guard enabled, at the download stage it will ask you for a guard code that you receive via the email
   associated with your account.  **Important**: after the installation is finished, remove your login/password from this file.
   Never leave it on a server.
 * Run `./install.sh all`
@@ -59,6 +61,9 @@ It failed, what do I do?
 
 It's probably my fault! This script is a hack. My goal is to make the
 procedure painless. Let me know and I will try to help you fixing it.
+
+If there's trouble downloading you can obtain the files yourself and put them in `downloads/`. The script
+will not attempt to download them if they exist.
 
 If something was wrong with your configuration, adjust it and perform
 `./install.sh reset` and then `./install.sh all` again. **Note that this
@@ -83,6 +88,7 @@ Thanks
 ------
 
 * BIS for an amazing game and the engine
-* Epoch mod developers 
+* Epoch & DayZ mod developers 
 * denisio for porting the hive mechanism to Linux
 * DeanReid for help
+* rezor92 for patches
