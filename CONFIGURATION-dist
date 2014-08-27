@@ -4,12 +4,15 @@
 STEAM_USERNAME=<DELETE THIS AFTER INSTALLATION>
 STEAM_PASSWORD=<DELETE THIS AFTER INSTALLATION>
 
-# This is to create the database, not for Epoch itself
+# This is to create the database. Note you have to edit writer.pl in your SERVER_PATH to the values of MYSQL_EPOCH.
 MYSQL_ADMIN_USER=root
-MYSQL_ADMIN_PASSWORD=root
+MYSQL_ADMIN_PASSWORD=ENTERYURPASSWD_OF_MYSQL_USER_ROOT
+MYSQL_EPOCH_DB=dayz_epoch
+MYSQL_EPOCH_USER=dayz_epoch
+MYSQL_EPOCH_PASSWORD=ENTERYOURPASSWD
 
 # Where to compose the server
-SERVER_PATH=../epoch
+SERVER_PATH=../epoch_server
 
 # Where to keep the downloads
 CACHE=./downloads
@@ -20,6 +23,3 @@ ARMA2_SERVER_URL=http://www.arma2.com/downloads/update/a2oa-server-1.63.112555.t
 STEAMCMD_URL=http://media.steampowered.com/installer/steamcmd_linux.tar.gz
 EPOCH_CLIENT_TARBALL=DayZ_Epoch_Client_1.0.5.1_Release.7z
 EPOCH_CLIENT_URL=https://s3.amazonaws.com/dayzepoch/$EPOCH_CLIENT_TARBALL?torrent
-
-
-
