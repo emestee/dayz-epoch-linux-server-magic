@@ -143,14 +143,14 @@ compose () {
 }
 
 sql () {
-    mysqladmin -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} create epoch || fail "Unable to create the database; invalid user/password?"
-    mysql -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} -e "GRANT ALL PRIVILEGES ON epoch.* TO 'dayz'@'localhost' IDENTIFIED BY 'dayz';"
-    cat Dayz-Epoch-Linux-Server/database.sql Dayz-Epoch-Linux-Server/v1042update.sql Dayz-Epoch-Linux-Server/v1042a_update.sql Dayz-Epoch-Linux-Server/v1051update.sql | mysql -udayz -pdayz epoch
+    mysqladmin -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} create ${MYSQL_EPOCH_DB} || fail "Unable to create the database; invalid user/password?"
+    mysql -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} -e "GRANT ALL PRIVILEGES ON ${MYSQL_EPOCH_DB}.* TO '${MYSQL_EPOCH_USER}'@'localhost' IDENTIFIED BY '${MYSQL_EPOCH_PASSWORD}';"
+    cat Dayz-Epoch-Linux-Server/database.sql Dayz-Epoch-Linux-Server/v1042update.sql Dayz-Epoch-Linux-Server/v1042a_update.sql Dayz-Epoch-Linux-Server/v1051update.sql | mysql -u${MYSQL_EPOCH_USER} -p${MYSQL_EPOCH_PASSWORD} ${MYSQL_EPOCH_DB}
 }
 
 reset () {
     rm -rf $SERVER_PATH
-    yes|mysqladmin -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} drop epoch > /dev/null
+    yes|mysqladmin -u${MYSQL_ADMIN_USER} -p${MYSQL_ADMIN_PASSWORD} drop ${MYSQL_EPOCH_DB} > /dev/null
     
 }
 [ "$1" = "" ] && { 
