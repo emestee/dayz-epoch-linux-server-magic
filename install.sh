@@ -96,7 +96,7 @@ dl_epoch () {
 	curl -s -o $CACHE/${EPOCH_CLIENT_TARBALL}.torrent $EPOCH_CLIENT_URL || fail "Epoch client torrent file unavailable"
 
 	pushd $CACHE > /dev/null
-	unworkable ${EPOCH_CLIENT_TARBALL}.torrent || fail "Unable to download the Epoch client file from bittorrent"
+	ctorrent -e 0 ${EPOCH_CLIENT_TARBALL}.torrent || fail "Unable to download the Epoch client file from bittorrent"
 	popd > /dev/null
 	} || echo "Epoch client file already in place, skipping bittorrent download"
 
