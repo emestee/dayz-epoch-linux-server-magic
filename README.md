@@ -25,6 +25,7 @@ Here is what it does exactly:
 * Downloads the necessary PBOs
 * Downloads the Linux hive port by denisio
 * Composes all of the above to create a working server environment
+* Throws in some patched scripts for niceness
 * Creates a single, default database instance and fills it with the default dump
 
 I tested it on DigitalOcean 2Gb RAM VPS with Debian 7, the whole
@@ -33,7 +34,7 @@ process takes 10 minutes and results in a fully working server.
 What do I need?
 ---------------
 
-* A Linux machine with a recent (2.16+) glibc, Debian Wheezy works
+* A Linux machine with a recent (2.13+) glibc, Debian Wheezy works
 * About 20Gb disk space and 2Gb RAM (the server will probably run with less; haven't tried)
 * A Steam account with Arma II and Arma II: AO
 
@@ -41,11 +42,14 @@ How do I run this?
 ------------------
 
 * If possible, create a separate system user, e.g. `epoch`, and perform all operations in and as it
-* Clone this repository with `git clone git@github.com:emestee/dayz-epoch-linux-server-magic.git`
+* Clone this repository with `git clone git@github.com:emestee/dayz-epoch-linux-server-magic.git`. Do not use Github's "download
+  as zip" button; won't work.
 * On Debian, run `packages.sh` **as root** to install the prerequisites. Otherwise look at the content of the file
   and install the equivalent packages.
 * Copy the `CONFIGURATION-dist` file to `CONFIGURATION` and edit it. At the bare minimum insert your steam login and password,
   and the database passwords.
+* If you already have some of the files this script uses, but them in `downloads/`; the existing files will not
+  be downloaded (but signature checked)
 * If you have Steam Guard enabled, at the download stage it will ask you for a guard code that you receive via the email
   associated with your account.  **Important**: after the installation is finished, remove your login/password from this file.
   Never leave it on a server.

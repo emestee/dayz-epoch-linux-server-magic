@@ -149,6 +149,10 @@ compose () {
     echo "Installing server binaries"
     cp arma2-server/server $SERVER_PATH/epoch
     cp -r arma2-server/expansion $SERVER_PATH
+
+    echo "Patching epoch.sh"
+    cp script.epoch $SERVER_PATH/epoch.sh
+    chmod +x $SERVER_PATH/epoch.sh
 }
 
 sql () {
