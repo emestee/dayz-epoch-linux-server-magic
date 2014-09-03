@@ -20,7 +20,7 @@ CACHE=./downloads
 
 # Don't edit these
 
-ARMA2_SERVER_URL=http://www.arma2.com/downloads/update/a2oa-server-1.63.112555.tar.bz2
+ARMA2_SERVER_URL=https://dl.dropboxusercontent.com/u/18463425/a2oa/a2oa-server-1.63.126652.tar.bz2
 STEAMCMD_URL=http://media.steampowered.com/installer/steamcmd_linux.tar.gz
 EPOCH_CLIENT_TARBALL=DayZ_Epoch_Client_1.0.5.1_Release.7z
 EPOCH_CLIENT_URL=https://s3.amazonaws.com/dayzepoch/$EPOCH_CLIENT_TARBALL?torrent

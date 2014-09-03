@@ -3,7 +3,7 @@ Automated DayZ Epoch Linux server _magic_ installer
 
 Current Epoch version: *1.0.5.1*
 
-Current Arma 2 AO server engine: *1.63.112555* (e91456595c3380f853097e0c767e1d0e)
+Current Arma 2 AO server engine: *1.63.126652* (as of 2014-09-03)
 
 Current Arma 2 AO beta data files: *1.63.122548*
 

@@ -121,7 +121,7 @@ clean () {
     find $SERVER_PATH -iname '*.cmd' -delete
     find $SERVER_PATH -iname '*.dll' -delete
     find $SERVER_PATH -iname '*.bat' -delete
-    rm -rf $SERVER_PATH/*.txt $SERVER_PATH/dll $SERVER_PATH/besetup $SERVER_PATH/directx
+    rm -rf $SERVER_PATH/dll $SERVER_PATH/besetup $SERVER_PATH/directx
 
     find $SERVER_PATH -type f -exec chmod a-x {} \;
     chmod u+x $SERVER_PATH/epoch $SERVER_PATH/*.pl $SERVER_PATH/*.sh
@@ -148,6 +148,9 @@ compose () {
 
     echo "Installing server binaries"
     cp arma2-server/server $SERVER_PATH/epoch
+    cp arma2-server/*.so $SERVER_PATH
+    cp arma2-server/steam_appid.txt $SERVER_PATH
+
     cp -r arma2-server/expansion $SERVER_PATH
 
     echo "Patching epoch.sh"
