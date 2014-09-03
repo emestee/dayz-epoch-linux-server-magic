@@ -34,7 +34,7 @@ process takes 10 minutes and results in a fully working server.
 What do I need?
 ---------------
 
-* A Linux machine with a recent (2.13+) glibc, Debian Wheezy works
+* A Linux machine with a recent (2.16+) glibc/eglibc, Debian Wheezy works if you upgrade glibc, see http://stackoverflow.com/questions/10863613/how-to-upgrade-glibc-from-version-2-13-to-2-15-on-debian
 * About 20Gb disk space and 2Gb RAM (the server will probably run with less; haven't tried)
 * A Steam account with Arma II and Arma II: AO
 
