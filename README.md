@@ -1,6 +1,8 @@
 Automated DayZ Epoch Linux server _magic_ installer
 ===========================================
 
+*This branch is for the oudated server 112555. Use master for the latest branch.*
+
 Current Epoch version: *1.0.5.1*
 
 Current Arma 2 AO server engine: *1.63.112555* (e91456595c3380f853097e0c767e1d0e)
