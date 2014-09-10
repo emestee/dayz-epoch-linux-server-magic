@@ -142,7 +142,9 @@ compose () {
     cp -r Dayz-Epoch-Linux-Server/expansion $SERVER_PATH
     cp -r Dayz-Epoch-Linux-Server/keys $SERVER_PATH
     cp -r Dayz-Epoch-Linux-Server/mpmissions $SERVER_PATH
-    
+
+    echo "Patching server configuration"
+    cp server.cfg-dist ${SERVER_PATH}/cfgdayz/server.cfg
     echo "Patching writer.pl"
     patch_writer
 
