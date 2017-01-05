@@ -53,6 +53,7 @@ How do I run this?
 * If you have Steam Guard enabled, at the download stage it will ask you for a guard code that you receive via the email
   associated with your account.  **Important**: after the installation is finished, remove your login/password from this file.
   Never leave it on a server.
+* You may need to edit file **'script.steam'** to change app id from 33910 to 33900 if you are in North America
 * Run `./install.sh all`
 
 Occasionally Steam would barf and the download will stop. Just try again.
